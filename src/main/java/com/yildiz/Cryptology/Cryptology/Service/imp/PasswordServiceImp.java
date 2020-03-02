@@ -1,6 +1,8 @@
 package com.yildiz.Cryptology.Cryptology.Service.imp;
 
 import com.yildiz.Cryptology.Cryptology.Model.Password;
+import com.yildiz.Cryptology.Cryptology.Model.PasswordEncrypt;
+import com.yildiz.Cryptology.Cryptology.Repositories.PasswordEncryptRepository;
 import com.yildiz.Cryptology.Cryptology.Repositories.PasswordRepository;
 import com.yildiz.Cryptology.Cryptology.Service.PasswordService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +18,13 @@ import java.util.List;
 public class PasswordServiceImp implements PasswordService {
     @Autowired
     PasswordRepository passwordRepository;
+    @Autowired
+    PasswordEncryptRepository passwordEncryptRepository;
 
 
     @Override
     public void savePassword(Password password) {
         passwordRepository.save(password);
-
-
     }
 
     @Override
@@ -31,9 +33,14 @@ public class PasswordServiceImp implements PasswordService {
     }
 
     @Override
-    public void createPassword(Password password){
+    public String createPassword(){
+
         ArrayList<String> passwordText=new ArrayList<>();
         ArrayList<Long> passwordNumber=new ArrayList<>();
+
+        StringBuilder EncPass = new StringBuilder();
+        StringBuilder firstText = new StringBuilder();
+        StringBuilder lastText = new StringBuilder();
 
         List<Password> pass=passwordRepository.findAll();
         pass.forEach((a)->{
@@ -41,59 +48,46 @@ public class PasswordServiceImp implements PasswordService {
             passwordNumber.add(a.getId()-1);
 
         });
-        System.out.println(passwordNumber);
-        System.out.println(passwordText);
-
 
         Collections.shuffle(passwordNumber);
-        System.out.println(passwordNumber);
 
         int psize=passwordNumber.size()-1;
-        String pname ="";
+        int size=passwordText.size()-1;
+
         for (int i=0;i<=psize;i++){
             Long number=passwordNumber.get(i);
-            pname+=number;
+            EncPass.append(number);
 
         }
-        System.out.println(pname);
 
-        ArrayList<String> encpasswordText=new ArrayList<>();
+        ArrayList<String> encPasswordText=new ArrayList<>();
         passwordNumber.forEach((k)->{
-            encpasswordText.add(passwordText.get(k.intValue()));
+            encPasswordText.add(passwordText.get(k.intValue()));
 
 
         });
-        System.out.println(encpasswordText);
 
-
-
-
-
-        int size=passwordText.size()-1;
-        String aname = "";
         for (int i=0;i<=size;i++){
-            String name=passwordText.get(i);
-            aname+=name;
-
+            firstText.append(passwordText.get(i));
         }
-        System.out.println(aname);
 
-        String bname = "";
         for (int i=0;i<=size;i++){
-            String name=encpasswordText.get(i);
-            bname+=name;
-
+            lastText.append(encPasswordText.get(i));
         }
-        System.out.println(bname);
 
-
-
-
-
-
-
-
+        savePas(EncPass.toString(), lastText.toString());
+        return EncPass.toString();
 
 
     }
+
+    @Override
+    public void savePas(String passNumber,String passText){
+        PasswordEncrypt passwordEncrypt=new PasswordEncrypt();
+        passwordEncrypt.setPassNumber(passNumber);
+        passwordEncrypt.setPassText(passText);
+        passwordEncryptRepository.save(passwordEncrypt);
+
+    }
+
 }

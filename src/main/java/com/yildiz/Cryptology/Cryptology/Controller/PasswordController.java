@@ -28,7 +28,7 @@ public class PasswordController {
         return "saved";
     }
     @GetMapping("/get")
-    public void getPass(Password password){
-         passwordService.createPassword(password);
+    public void getPass(){
+         passwordService.createPassword();
     }
 }

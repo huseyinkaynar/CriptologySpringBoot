@@ -7,5 +7,6 @@ import org.springframework.data.domain.Pageable;
 public interface PasswordService {
     void savePassword(Password password);
     Page<Password> allPassword(Pageable pageable);
-    void createPassword(Password password);
+    String createPassword();
+    void savePas(String passNumber,String passText);
 }

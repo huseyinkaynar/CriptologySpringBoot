@@ -2,6 +2,7 @@ package com.yildiz.Cryptology.Cryptology.Controller;
 
 import com.yildiz.Cryptology.Cryptology.Model.Encrypt;
 import com.yildiz.Cryptology.Cryptology.Service.EncryptService;
+import com.yildiz.Cryptology.Cryptology.Service.PasswordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,6 +16,8 @@ public class EncryptController {
 
     @Autowired
     EncryptService encryptService;
+    @Autowired
+    PasswordService passwordService;
 
     @GetMapping("")
     @ResponseBody
@@ -22,6 +25,13 @@ public class EncryptController {
 
         Page<Encrypt> resultPage = encryptService.allEncrypt(pageable);
         return new ResponseEntity<>(resultPage,HttpStatus.OK);
+    }
+    @GetMapping("createpassword")
+    @ResponseBody
+    public String createPassword(){
+        return passwordService.createPassword();
+
+
     }
     @PostMapping("")
     public String createdecrypt(@RequestBody Encrypt encrypt){

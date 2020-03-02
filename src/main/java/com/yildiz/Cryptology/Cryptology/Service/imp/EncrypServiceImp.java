@@ -25,4 +25,5 @@ public class EncrypServiceImp implements EncryptService {
         return encryptRepository.findAll(pageable);
 
     }
+
 }
