@@ -6,9 +6,14 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class CryptologyApplication {
 
-	public static void main(String[] args) { SpringApplication.run(CryptologyApplication.class, args);}
+	public static void main(String[] args) { SpringApplication.run(CryptologyApplication.class, args);
 
 
 
 	}
 
+
+
+
+
+}

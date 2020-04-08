@@ -33,10 +33,14 @@ public class PasswordServiceImp implements PasswordService {
     }
 
     @Override
-    public String createPassword(){
+    public ArrayList<ArrayList<String>> createPassword(){
 
         ArrayList<String> passwordText=new ArrayList<>();
-        ArrayList<Long> passwordNumber=new ArrayList<>();
+        ArrayList<String> passwordNumber=new ArrayList<>();
+        ArrayList<ArrayList<String>> returnValue=new ArrayList<ArrayList<String>>();
+
+
+
 
         StringBuilder EncPass = new StringBuilder();
         StringBuilder firstText = new StringBuilder();
@@ -45,24 +49,27 @@ public class PasswordServiceImp implements PasswordService {
         List<Password> pass=passwordRepository.findAll();
         pass.forEach((a)->{
             passwordText.add(a.getPassword());
-            passwordNumber.add(a.getId()-1);
+            int sayi =a.getId().intValue()-1;
+            passwordNumber.add(String.valueOf(sayi));
 
         });
 
         Collections.shuffle(passwordNumber);
 
+
+
         int psize=passwordNumber.size()-1;
         int size=passwordText.size()-1;
 
         for (int i=0;i<=psize;i++){
-            Long number=passwordNumber.get(i);
+            String  number=passwordNumber.get(i);
             EncPass.append(number);
 
         }
 
         ArrayList<String> encPasswordText=new ArrayList<>();
         passwordNumber.forEach((k)->{
-            encPasswordText.add(passwordText.get(k.intValue()));
+            encPasswordText.add(passwordText.get(Integer.parseInt(k)));
 
 
         });
@@ -76,7 +83,15 @@ public class PasswordServiceImp implements PasswordService {
         }
 
         savePas(EncPass.toString(), lastText.toString());
-        return EncPass.toString();
+
+
+        returnValue.add(passwordText);
+        returnValue.add(encPasswordText);
+        returnValue.add(passwordNumber);
+
+
+        return returnValue;
+
 
 
     }

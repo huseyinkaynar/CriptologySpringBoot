@@ -7,4 +7,5 @@ import org.springframework.data.domain.Pageable;
 public interface EncryptService {
     void saveEncryptText(Encrypt encrypt);
     Page<Encrypt> allEncrypt(Pageable pageable);
+    String EncryptText(Encrypt encrypt);
 }

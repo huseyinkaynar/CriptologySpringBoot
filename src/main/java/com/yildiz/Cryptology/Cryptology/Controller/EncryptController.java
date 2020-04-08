@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+
 @RestController
 @RequestMapping(value = "encrypt")
 public class EncryptController {
@@ -28,7 +30,7 @@ public class EncryptController {
     }
     @GetMapping("createpassword")
     @ResponseBody
-    public String createPassword(){
+    public ArrayList<ArrayList<String>> createPassword(){
         return passwordService.createPassword();
 
 
@@ -36,6 +38,8 @@ public class EncryptController {
     @PostMapping("")
     public String createdecrypt(@RequestBody Encrypt encrypt){
         encryptService.saveEncryptText(encrypt);
-        return "saved";
+        return encryptService.EncryptText(encrypt);
+
     }
+
 }
