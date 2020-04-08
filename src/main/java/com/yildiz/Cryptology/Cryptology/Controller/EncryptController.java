@@ -1,5 +1,6 @@
 package com.yildiz.Cryptology.Cryptology.Controller;
 
+import com.yildiz.Cryptology.Cryptology.Model.Decrypt;
 import com.yildiz.Cryptology.Cryptology.Model.Encrypt;
 import com.yildiz.Cryptology.Cryptology.Service.EncryptService;
 import com.yildiz.Cryptology.Cryptology.Service.PasswordService;
@@ -36,8 +37,7 @@ public class EncryptController {
 
     }
     @PostMapping("")
-    public String createdecrypt(@RequestBody Encrypt encrypt){
-        encryptService.saveEncryptText(encrypt);
+    public Decrypt createdecrypt(@RequestBody Encrypt encrypt){
         return encryptService.EncryptText(encrypt);
 
     }

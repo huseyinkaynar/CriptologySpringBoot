@@ -2,6 +2,7 @@ package com.yildiz.Cryptology.Cryptology.Controller;
 
 
 import com.yildiz.Cryptology.Cryptology.Model.Decrypt;
+import com.yildiz.Cryptology.Cryptology.Model.Encrypt;
 import com.yildiz.Cryptology.Cryptology.Service.DecryptService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -24,10 +25,13 @@ public class DecryptController {
         return new ResponseEntity<>(resultPage,HttpStatus.OK);
     }
 
+
+
     @PostMapping("")
-    public String createdecrypt(@RequestBody Decrypt decrypt){
-        decryptService.saveDecryptText(decrypt);
-        return "saved";
+    @ResponseBody
+    public Encrypt findAlldecryptaaa(@RequestBody Decrypt decrypt){
+
+        return decryptService.decryptText(decrypt);
     }
 
 

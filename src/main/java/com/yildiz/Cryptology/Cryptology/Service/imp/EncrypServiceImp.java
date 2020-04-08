@@ -38,7 +38,7 @@ public class EncrypServiceImp implements EncryptService {
     }
 
     @Override
-    public String EncryptText(Encrypt encrypt){
+    public Decrypt EncryptText(Encrypt encrypt){
 
         //Kullanıcıdan Alınan Text Array'e Çevriliyor
 
@@ -159,20 +159,7 @@ public class EncrypServiceImp implements EncryptService {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-        return "Metin Şifrelenmiştir...";
+        return decrypt;
 
 
     }
