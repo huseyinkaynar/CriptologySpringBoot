@@ -37,7 +37,6 @@ public class PasswordEncryptServiceImp implements PasswordEncryptService {
            lastText.append(a.getPassText());
 
         });
-        System.out.println(lastText);
 
 
     }

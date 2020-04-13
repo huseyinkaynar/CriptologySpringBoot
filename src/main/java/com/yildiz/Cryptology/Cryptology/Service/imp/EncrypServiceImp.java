@@ -7,8 +7,6 @@ import com.yildiz.Cryptology.Cryptology.Repositories.EncryptRepository;
 import com.yildiz.Cryptology.Cryptology.Service.EncryptService;
 import com.yildiz.Cryptology.Cryptology.Service.PasswordService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -23,19 +21,8 @@ public class EncrypServiceImp implements EncryptService {
     @Autowired
     DecryptRepository decryptRepository;
 
-    @Override
-    public void saveEncryptText(Encrypt encrypt) {
-        encryptRepository.save(encrypt);
-
-    }
 
 
-    @Override
-    public Page<Encrypt> allEncrypt(Pageable pageable){
-
-        return encryptRepository.findAll(pageable);
-
-    }
 
     @Override
     public Decrypt EncryptText(Encrypt encrypt){
@@ -46,13 +33,9 @@ public class EncrypServiceImp implements EncryptService {
         clientText.append(encrypt.getTextEncrypt());
         ArrayList<Character> clientTextArray = new ArrayList<>() ;
 
-        System.out.println(clientText);
-
         for (int k=0;k<clientText.length();k++){
             clientTextArray.add(clientText.charAt(k));
         }
-
-        System.out.println(clientTextArray);
 
         //-----------------------------------------
 
@@ -69,14 +52,6 @@ public class EncrypServiceImp implements EncryptService {
         creatingTextPass=allText.get(2);          //Oluşturulan Şifre
 
 
-        System.out.println("alfabe:");
-        System.out.println(creatingAlphabet);
-        System.out.println("şifrelenicek alfabe:");
-        System.out.println(creatingPassText);
-        System.out.println("şifre:");
-        System.out.println(creatingTextPass);
-
-
         //Gelen veriler Stringe çevriliyor
         StringBuilder creatingfirstText = new StringBuilder();
         StringBuilder creatingLastText = new StringBuilder();
@@ -91,10 +66,6 @@ public class EncrypServiceImp implements EncryptService {
 
         }
 
-        System.out.println(creatingfirstText);
-        System.out.println(creatingLastText);
-
-
         //-----------------------------------------
 
         //String datalar Dizi ye çevriliyor
@@ -107,13 +78,7 @@ public class EncrypServiceImp implements EncryptService {
             y.add(creatingLastText.charAt(k));
         }
 
-
-        System.out.println(x);
-
-        System.out.println(y);
-
         //-----------------------------------------
-
 
         //Şifreleme Yapılıyor
 
@@ -129,11 +94,6 @@ public class EncrypServiceImp implements EncryptService {
 
         //-----------------------------------------
 
-        System.out.println("Şifrelenecek Metin");
-        System.out.println(clientText);
-        System.out.println("Şifrelenmiş Metin");
-        System.out.println(encrypClientText);
-
         //Şifrenen metin Texte çevriliyor ve Decrypt database e kaydediliyot
         StringBuilder e = new StringBuilder();
         StringBuilder ePass =new StringBuilder();
@@ -145,9 +105,6 @@ public class EncrypServiceImp implements EncryptService {
         for (int i=0;i<=creatingTextPass.size()-1;i++){
             ePass.append(creatingTextPass.get(i));
         }
-
-        System.out.println("Şifrelenmiş Metin Text");
-        System.out.println(e);
 
         Decrypt decrypt=new Decrypt();
         decrypt.setTextDecrypt(e.toString());

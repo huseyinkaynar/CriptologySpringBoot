@@ -10,8 +10,6 @@ import com.yildiz.Cryptology.Cryptology.Repositories.PasswordEncryptRepository;
 import com.yildiz.Cryptology.Cryptology.Service.DecryptService;
 import com.yildiz.Cryptology.Cryptology.Service.PasswordService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -29,19 +27,6 @@ public class DecryptServiceImp implements DecryptService {
     EncryptRepository encryptRepository;
 
 
-    @Override
-    public void saveDecryptText(Decrypt decrypt) {
-        decryptRepository.save(decrypt);
-
-    }
-
-
-    @Override
-    public Page<Decrypt> allDecrypt(Pageable pageable){
-
-        return decryptRepository.findAll(pageable);
-
-    }
 
     @Override
     public Encrypt decryptText(Decrypt decrypt){
@@ -51,8 +36,6 @@ public class DecryptServiceImp implements DecryptService {
 
         decryptingArray1=decrypt.getTextDecrypt();
 
-        System.out.println("Çözülecek Metin:");
-        System.out.println(decryptingArray1);
 
         StringBuilder decryptingPassArray1=new StringBuilder();
         List<PasswordEncrypt> decryptingPass=  passwordEncryptRepository.findBypassNumber(decrypt.getPassDecrypt());
@@ -61,8 +44,7 @@ public class DecryptServiceImp implements DecryptService {
 
         });
 
-        System.out.println("Çözüm Şifresi");
-        System.out.println(decryptingPassArray1);
+
         ArrayList<ArrayList<String>> allText = new ArrayList<>() ;
         ArrayList<String> creatingAlphabet = new ArrayList<>() ;
 
@@ -76,10 +58,6 @@ public class DecryptServiceImp implements DecryptService {
             creatingfirstText.append(creatingAlphabet.get(i));
         }
 
-        System.out.println("Alfabe");
-        System.out.println(creatingfirstText);
-
-
 
 
         ArrayList<Character> y = new ArrayList<>() ;
@@ -87,7 +65,6 @@ public class DecryptServiceImp implements DecryptService {
         for (int k=0;k<creatingfirstText.length();k++){
             y.add(creatingfirstText.charAt(k));
         }
-
 
 
         ArrayList<String> decryptingNewText=new ArrayList<>();
@@ -111,8 +88,6 @@ public class DecryptServiceImp implements DecryptService {
             }
 
         }
-        System.out.println("Çözülmüş Metin");
-        System.out.println(decryptingNewText);
 
         StringBuilder e = new StringBuilder();
 
@@ -120,8 +95,6 @@ public class DecryptServiceImp implements DecryptService {
             e.append(decryptingNewText.get(i));
         }
 
-        System.out.println("Çözülmüş Metin Text");
-        System.out.println(e);
 
         Encrypt encrypt=new Encrypt();
         encrypt.setTextEncrypt(e.toString());
