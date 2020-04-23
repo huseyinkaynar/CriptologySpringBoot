@@ -2,6 +2,7 @@ package com.yildiz.Cryptology.Cryptology.Controller;
 
 import com.yildiz.Cryptology.Cryptology.Model.Decrypt;
 import com.yildiz.Cryptology.Cryptology.Model.Encrypt;
+import com.yildiz.Cryptology.Cryptology.Model.Mail;
 import com.yildiz.Cryptology.Cryptology.Service.EncryptService;
 import com.yildiz.Cryptology.Cryptology.Service.PasswordService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,5 +32,11 @@ public class EncryptController {
         return encryptService.EncryptText(encrypt);
 
     }
+    @PostMapping("send")
+    public void sendEncrypt(@RequestBody Mail mail){
+         encryptService.sendMail(mail);
+
+    }
+
 
 }

@@ -2,17 +2,25 @@ package com.yildiz.Cryptology.Cryptology.Service.imp;
 
 import com.yildiz.Cryptology.Cryptology.Model.Decrypt;
 import com.yildiz.Cryptology.Cryptology.Model.Encrypt;
+import com.yildiz.Cryptology.Cryptology.Model.Mail;
 import com.yildiz.Cryptology.Cryptology.Repositories.DecryptRepository;
 import com.yildiz.Cryptology.Cryptology.Repositories.EncryptRepository;
 import com.yildiz.Cryptology.Cryptology.Service.EncryptService;
 import com.yildiz.Cryptology.Cryptology.Service.PasswordService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import java.util.ArrayList;
 
 @Service
 public class EncrypServiceImp implements EncryptService {
+
+    @Autowired
+    private JavaMailSender javaMailSender;
 
     @Autowired
     EncryptRepository encryptRepository;
@@ -22,6 +30,7 @@ public class EncrypServiceImp implements EncryptService {
     DecryptRepository decryptRepository;
 
 
+    Decrypt decrypt=new Decrypt();
 
 
     @Override
@@ -106,7 +115,6 @@ public class EncrypServiceImp implements EncryptService {
             ePass.append(creatingTextPass.get(i));
         }
 
-        Decrypt decrypt=new Decrypt();
         decrypt.setTextDecrypt(e.toString());
         decrypt.setPassDecrypt(ePass.toString());
         decryptRepository.save(decrypt);
@@ -116,9 +124,28 @@ public class EncrypServiceImp implements EncryptService {
 
 
 
+
         return decrypt;
 
 
     }
+
+    @Override
+    public void sendMail(Mail mail) {
+
+
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+        MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
+
+        try {
+            messageHelper.setTo(mail.getToMail());
+            messageHelper.setText("Şifreniz:" + decrypt.getPassDecrypt()+"Metin:"+ decrypt.getTextDecrypt(),true);
+            messageHelper.setSubject("Criptology Mail");
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+        javaMailSender.send(mimeMessage);
+    }
+
 
 }

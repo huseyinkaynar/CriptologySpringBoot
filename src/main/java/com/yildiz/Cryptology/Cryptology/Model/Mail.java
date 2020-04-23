@@ -4,22 +4,23 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 
-
-@Entity
 @Getter
 @Setter
-public class Decrypt implements Serializable {
+@Entity
+@Table(name = "mail")
+public class Mail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
     @Column
-    @NotNull
-    private String textDecrypt;
+    private String toMail;
     @Column
-    private String passDecrypt;
+    private String mailText;
+    @Column
+    private String mailSubject;
+
+
 
 
 
