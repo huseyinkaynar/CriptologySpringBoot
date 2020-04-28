@@ -4,7 +4,6 @@ package com.yildiz.Cryptology.Cryptology.Service.imp;
 import com.yildiz.Cryptology.Cryptology.Model.Decrypt;
 import com.yildiz.Cryptology.Cryptology.Model.Encrypt;
 import com.yildiz.Cryptology.Cryptology.Model.PasswordEncrypt;
-import com.yildiz.Cryptology.Cryptology.Repositories.DecryptRepository;
 import com.yildiz.Cryptology.Cryptology.Repositories.EncryptRepository;
 import com.yildiz.Cryptology.Cryptology.Repositories.PasswordEncryptRepository;
 import com.yildiz.Cryptology.Cryptology.Service.DecryptService;
@@ -17,8 +16,7 @@ import java.util.List;
 
 @Service
 public class DecryptServiceImp implements DecryptService {
-    @Autowired
-    DecryptRepository decryptRepository;
+
     @Autowired
     PasswordEncryptRepository passwordEncryptRepository;
     @Autowired

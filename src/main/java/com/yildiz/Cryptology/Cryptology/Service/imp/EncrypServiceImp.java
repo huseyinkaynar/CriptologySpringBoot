@@ -4,10 +4,10 @@ import com.yildiz.Cryptology.Cryptology.Model.Decrypt;
 import com.yildiz.Cryptology.Cryptology.Model.Encrypt;
 import com.yildiz.Cryptology.Cryptology.Model.Mail;
 import com.yildiz.Cryptology.Cryptology.Repositories.DecryptRepository;
-import com.yildiz.Cryptology.Cryptology.Repositories.EncryptRepository;
 import com.yildiz.Cryptology.Cryptology.Service.EncryptService;
 import com.yildiz.Cryptology.Cryptology.Service.PasswordService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -17,6 +17,10 @@ import org.thymeleaf.spring5.SpringTemplateEngine;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 @Service
@@ -27,12 +31,20 @@ public class EncrypServiceImp implements EncryptService {
     @Autowired
     private SpringTemplateEngine templateEngine;
 
-    @Autowired
-    EncryptRepository encryptRepository;
+
     @Autowired
     PasswordService passwordService;
     @Autowired
     DecryptRepository decryptRepository;
+
+    @Value("${text.path}")
+    String textFilePath;
+    @Value("${template.name}")
+    String templateName;
+    @Value("${attachment.name}")
+    String attachmentName;
+    @Value("${mail.subject}")
+    String mailSubject;
 
 
     Decrypt decrypt=new Decrypt();
@@ -124,27 +136,31 @@ public class EncrypServiceImp implements EncryptService {
         decrypt.setPassDecrypt(ePass.toString());
         decryptRepository.save(decrypt);
 
-
         //-----------------------------------------
-
-
-
 
         return decrypt;
 
-
     }
 
-    @Override
-    public void sendMail(Mail mail) {
 
+    @Override
+    public void sendMail(Mail mail) throws IOException {
 
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 
         Context context = new Context();
 
-        final String htmlContent = this.templateEngine.process("newsletter-template.html", context);
+        final String htmlContent = this.templateEngine.process(templateName, context);
+        File file1 = new File(textFilePath);
+        if (!file1.exists()) {
+            file1.createNewFile();
+        }
 
+        FileWriter fileWriter = new FileWriter(file1, false);
+        BufferedWriter bWriter = new BufferedWriter(fileWriter);
+        bWriter.write("Şifreniz:"+decrypt.getPassDecrypt());
+        bWriter.newLine();
+        bWriter.write("Şifrelenmiş Metininiz:"+decrypt.getTextDecrypt());
 
 
 
@@ -154,16 +170,21 @@ public class EncrypServiceImp implements EncryptService {
 
             messageHelper.setTo(mail.getToMail());
             messageHelper.setText(htmlContent,true);
-            messageHelper.setSubject("Criptology Mail");
+            messageHelper.setSubject(mailSubject);
 
-            FileSystemResource file = new FileSystemResource("/Users/hkaynar/Desktop/huseyinkaynarbitirme/Cryptology/src/main/resources/templates/criptology.txt");
-            messageHelper.addAttachment("criptology.txt",file);
+            FileSystemResource file = new FileSystemResource(textFilePath);
+            messageHelper.addAttachment(attachmentName,file);
 
         } catch (MessagingException e) {
             e.printStackTrace();
         }
+        bWriter.close();
+
         javaMailSender.send(mimeMessage);
     }
+
+
+
 
 
 }

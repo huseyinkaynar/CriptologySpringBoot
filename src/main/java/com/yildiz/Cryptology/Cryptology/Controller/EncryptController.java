@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
+import java.io.IOException;
 import java.util.ArrayList;
 
 @RestController
@@ -34,7 +35,7 @@ public class EncryptController {
 
     }
     @PostMapping("send")
-    public void sendEncrypt(@RequestBody Mail mail) throws MessagingException {
+    public void sendEncrypt(@RequestBody Mail mail) throws MessagingException, IOException {
          encryptService.sendMail(mail);
 
     }

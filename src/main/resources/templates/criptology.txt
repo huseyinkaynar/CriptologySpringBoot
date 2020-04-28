@@ -1,3 +1,2 @@
-${passEncrypt}
-${textEncrypt}
-
+Şifreniz:453028167
+Şifrelenmiş Metininiz:2kc,&4tyrq&tqb
