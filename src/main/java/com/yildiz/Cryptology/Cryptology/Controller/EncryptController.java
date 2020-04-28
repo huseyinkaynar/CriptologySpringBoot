@@ -8,6 +8,7 @@ import com.yildiz.Cryptology.Cryptology.Service.PasswordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import java.util.ArrayList;
 
 @RestController
@@ -33,7 +34,7 @@ public class EncryptController {
 
     }
     @PostMapping("send")
-    public void sendEncrypt(@RequestBody Mail mail){
+    public void sendEncrypt(@RequestBody Mail mail) throws MessagingException {
          encryptService.sendMail(mail);
 
     }

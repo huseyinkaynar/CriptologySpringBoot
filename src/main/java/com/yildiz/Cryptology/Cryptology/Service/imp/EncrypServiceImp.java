@@ -8,9 +8,12 @@ import com.yildiz.Cryptology.Cryptology.Repositories.EncryptRepository;
 import com.yildiz.Cryptology.Cryptology.Service.EncryptService;
 import com.yildiz.Cryptology.Cryptology.Service.PasswordService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.context.Context;
+import org.thymeleaf.spring5.SpringTemplateEngine;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -21,6 +24,8 @@ public class EncrypServiceImp implements EncryptService {
 
     @Autowired
     private JavaMailSender javaMailSender;
+    @Autowired
+    private SpringTemplateEngine templateEngine;
 
     @Autowired
     EncryptRepository encryptRepository;
@@ -135,12 +140,25 @@ public class EncrypServiceImp implements EncryptService {
 
 
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-        MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
+
+        Context context = new Context();
+
+        final String htmlContent = this.templateEngine.process("newsletter-template.html", context);
+
+
+
 
         try {
+            MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage,true);
+
+
             messageHelper.setTo(mail.getToMail());
-            messageHelper.setText("Şifreniz:" + decrypt.getPassDecrypt()+"Metin:"+ decrypt.getTextDecrypt(),true);
+            messageHelper.setText(htmlContent,true);
             messageHelper.setSubject("Criptology Mail");
+
+            FileSystemResource file = new FileSystemResource("/Users/hkaynar/Desktop/huseyinkaynarbitirme/Cryptology/src/main/resources/templates/criptology.txt");
+            messageHelper.addAttachment("criptology.txt",file);
+
         } catch (MessagingException e) {
             e.printStackTrace();
         }
