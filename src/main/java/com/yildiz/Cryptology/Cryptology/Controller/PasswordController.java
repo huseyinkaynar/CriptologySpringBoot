@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin("https://criptology.herokuapp.com")
 @RequestMapping(value = "password")
 public class PasswordController {
     @Autowired

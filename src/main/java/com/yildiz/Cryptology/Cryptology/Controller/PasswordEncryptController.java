@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin("https://criptology.herokuapp.com")
 @RequestMapping(value = "encryptpassword")
 public class PasswordEncryptController {
     @Autowired

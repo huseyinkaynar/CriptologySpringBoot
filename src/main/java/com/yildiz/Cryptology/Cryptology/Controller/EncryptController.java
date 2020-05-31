@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 @RestController
+@CrossOrigin("https://criptology.herokuapp.com")
 @RequestMapping(value = "encrypt")
 public class EncryptController {
 
